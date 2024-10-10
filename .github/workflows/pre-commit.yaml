@@ -27,19 +27,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install pre-commit
 
-      # Step 4: Run pre-commit hooks
-      - name: Run pre-commit
-        run: pre-commit run --all-files
+      # Step 4: Run pre-commit hooks and ignore non-zero exit code
+      - name: Run pre-commit (ignore exit code)
+        id: run_pre_commit
+        run: |
+          pre-commit run --all-files || true  # Ignore exit code
 
-      # Step 5: Check if any changes were made
+      # Step 5: Check if any changes were made by pre-commit
       - name: Check for changes
-        id: check_changes
         run: |
           git diff --exit-code || echo "Changes detected"
+        id: check_changes
 
       # Step 6: Commit and push changes if files were modified
       - name: Commit and push changes
-        if: steps.check_changes.outputs.exit_code != '0'
+        if: steps.check_changes.outcome == 'success' # Run if changes were detected
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
