@@ -16,7 +16,7 @@ jobs:
           git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
       # Install dependencies, like yq for manipulating YAML
       - name: Install yq
-        run: sudo apt-get install -y jq python3-pip && pip3 install yq
+        run: sudo apt-get install -y wget && wget https://github.com/mikefarah/yq/releases/download/v4.2.0/yq_linux_amd64.tar.gz -O - |  tar xz && mv yq_linux_amd64 /usr/bin/yq
 
       # Get list of changed files
       - name: Get list of changed files
