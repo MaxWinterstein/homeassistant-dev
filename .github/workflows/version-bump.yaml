@@ -37,6 +37,8 @@ jobs:
       - name: Find relevant config.yaml files
         id: check_config
         run: |
+          find . -name "config.yaml"
+          echo "find above"
           # Find all config.yaml files and check for changes next to or below them
           while IFS= read -r file; do
             dir=$(dirname "$file")
