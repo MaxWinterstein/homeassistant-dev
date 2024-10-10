@@ -16,7 +16,9 @@ jobs:
       # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
-
+      - name: Fetch all branches
+        run: |
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
       # Install dependencies, like yq for manipulating YAML
       - name: Install yq
         run: sudo apt-get install -y jq python3-pip && pip3 install yq
