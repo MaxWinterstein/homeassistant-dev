@@ -25,7 +25,7 @@ jobs:
       - name: Get list of changed files
         id: changed_files
         run: |
-          git diff --name-only origin/master HEAD > changed_files.txt
+          git diff --name-only origin/main HEAD > changed_files.txt
           echo "::set-output name=files::$(cat changed_files.txt)"
 
       # Find all the config.yaml files and check for changes in neighboring files
