@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: pre-commit-ci/lite-action@v1.0.0
+    - uses: pre-commit-ci/lite-action@v1.0.3
       if: always()
       # # Step 1: Check out the repository code
       # - name: Checkout code
