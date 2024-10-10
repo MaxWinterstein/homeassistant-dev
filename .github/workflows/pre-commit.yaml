@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: pre-commit-ci/lite-action@v1.0.3
         if: always()
-        # # Step 1: Check out the repository code
+# # Step 1: Check out the repository code
         # - name: Checkout code
         # - uses: actions/checkout@v4
 
