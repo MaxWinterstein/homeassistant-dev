@@ -12,7 +12,7 @@
     ":automergeTypes",
     "customManagers:dockerfileVersions"
   ],
-  "repositories": [{ repository: 'MaxWinterstein/homeassistant-dev'],
+  "repositories": [{ repository: 'MaxWinterstein/homeassistant-dev'}],
   "rebaseWhen": "behind-base-branch",
   "dependencyDashboard": true,
   "dependencyDashboardAutoclose": true,
