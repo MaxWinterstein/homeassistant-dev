@@ -55,7 +55,7 @@ jobs:
           for file in ${{ steps.check_config.outputs.config_files }}; do
             current_version=$(yq '.version' "$file")
             new_version=$(echo $current_version | awk -F. '{$NF+=1}1' | sed 's/ /./g')
-            yq ".version |= \"$new_version\"" -i "$file"
+            yq  -i ".version |= \"$new_version\"" "$file"
             echo "Bumped $file version from $current_version to $new_version"
           done
 
