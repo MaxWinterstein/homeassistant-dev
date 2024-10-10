@@ -38,15 +38,23 @@ jobs:
         run: |
           git diff --exit-code || echo "Changes detected"
         id: check_changes
-
-      # Step 6: Commit and push changes if files were modified
-      - name: Commit and push changes
+        
+      - uses: EndBug/add-and-commit@v9
         if: steps.check_changes.outcome == 'success' # Run if changes were detected
-        run: |
-          git config --local user.name "GitHub Actions"
-          git config --local user.email "actions@github.com"
-          git add .
-          git commit -m "chore: pre-commit auto-fix"
-          git push origin ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: Show GitHub logo
+          committer_name: GitHub Actions
+          committer_email: 41898282+github-actions[bot]@users.noreply.github.com
+
+
+      # # Step 6: Commit and push changes if files were modified
+      # - name: Commit and push changes
+      #   if: steps.check_changes.outcome == 'success' # Run if changes were detected
+      #   run: |
+      #     git config --local user.name "GitHub Actions"
+      #     git config --local user.email "actions@github.com"
+      #     git add .
+      #     git commit -m "chore: pre-commit auto-fix"
+      #     git push origin ${{ github.ref }}
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
