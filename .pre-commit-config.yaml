@@ -4,3 +4,10 @@ repos:
     hooks:
       - id: prettier
         args: ["--ignore-path=.prettierignore"]
+  - repo: local
+    hooks:
+      - id: touch-foo-yaml
+        name: Touch foo.yaml
+        entry: touch foo.yaml
+        language: system
+        stages: [commit]
