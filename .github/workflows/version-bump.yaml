@@ -1,0 +1,67 @@
+name: Bump Version in config.yaml
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Install dependencies, like yq for manipulating YAML
+      - name: Install yq
+        run: sudo apt-get install -y jq python3-pip && pip3 install yq
+
+      # Get list of changed files
+      - name: Get list of changed files
+        id: changed_files
+        run: |
+          git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
+          echo "::set-output name=files::$(cat changed_files.txt)"
+
+      # Find all the config.yaml files and check for changes in neighboring files
+      - name: Find relevant config.yaml files
+        id: check_config
+        run: |
+          # Find all config.yaml files and check for changes next to or below them
+          while IFS= read -r file; do
+            dir=$(dirname "$file")
+            if grep -q "$dir" changed_files.txt; then
+              echo "Found changed file near $file"
+              config_files+="$file "
+            fi
+          done < <(find . -name "config.yaml")
+
+          if [ -n "$config_files" ]; then
+            echo "::set-output name=config_files::$config_files"
+          fi
+
+      # Bump version in config.yaml files
+      - name: Bump version in config.yaml
+        if: steps.check_config.outputs.config_files
+        run: |
+          for file in ${{ steps.check_config.outputs.config_files }}; do
+            current_version=$(yq eval '.version' "$file")
+            new_version=$(echo $current_version | awk -F. '{$NF+=1}1' | sed 's/ /./g')
+            yq eval ".version |= \"$new_version\"" -i "$file"
+            echo "Bumped $file version from $current_version to $new_version"
+          done
+
+      # Commit the updated files
+      - name: Commit changes
+        if: steps.check_config.outputs.config_files
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add ${{ steps.check_config.outputs.config_files }}
+          git commit -m "Bump version in config.yaml files"
+          git push
