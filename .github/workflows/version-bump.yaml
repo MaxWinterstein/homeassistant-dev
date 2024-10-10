@@ -47,7 +47,7 @@ jobs:
               echo "Found changed file near $file"
               config_files+="$file "
             fi
-          done < <(find . -name "config.yaml")
+          done < <(find . -name "config.yaml" | sed 's|^\./||')
 
           if [ -n "$config_files" ]; then
             echo "::set-output name=config_files::$config_files"
