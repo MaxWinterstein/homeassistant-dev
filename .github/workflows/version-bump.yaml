@@ -42,6 +42,7 @@ jobs:
           # Find all config.yaml files and check for changes next to or below them
           while IFS= read -r file; do
             dir=$(dirname "$file")
+            echo  "if grep -q \"$dir\" changed_files.txt; then"
             if grep -q "$dir" changed_files.txt; then
               echo "Found changed file near $file"
               config_files+="$file "
