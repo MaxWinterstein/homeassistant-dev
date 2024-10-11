@@ -36,5 +36,9 @@
     }
   ],
   "ignorePaths": ["portainer/*"],
-  "commitMessagePrefix": "[{{packageFileDir}}]"
+  "commitMessagePrefix": "[{{packageFileDir}}]",
+  "postUpgradeTasks": {
+    "commands": ["touch foo"],
+    "executionMode": "update"
+  }
 }
