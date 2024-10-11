@@ -30,6 +30,12 @@ jobs:
           echo "Extracted version: $VERSION"
           echo "::set-output name=version::$VERSION"
             
+      - name: Extract version from config.yaml
+        id: get_version
+        uses: mikefarah/yq@v4.44.3  
+        with:
+          cmd: yq '.version' ${{ steps.get_module.outputs.file_name }}/config.yaml
+
       # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v4
@@ -47,7 +53,7 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Build towncrier
-        run: uv run towncrier build --dir "${{ steps.get_module.outputs.file_name }}" --version "${{ steps.get_version.outputs.version }}"
+        run: uv run towncrier build --dir "${{ steps.get_module.outputs.file_name }}" --version "${{ steps.get_version.outputs.result }}"
 
       # - name: Fetch all branches
       #   run: |
