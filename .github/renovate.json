@@ -39,7 +39,7 @@
   "commitMessagePrefix": "[{{packageFileDir}}]",
   "allowedPostUpgradeCommands": [".*"],
   "postUpgradeTasks": {
-    "commands": [ "CHANGE=\"{{{depName}}} from {{{currentVersion}}} to {{{newVersion}}}\" mkdir -p {{{parentDir}}}/changes/ && echo \"$CHANGE\" >> {{{parentDir}}}/$(echo $CHANGE | md5sum).md"],
+    "commands": [ " mkdir -p {{{parentDir}}}/changes/ && CHANGE=\"{{{depName}}} from {{{currentVersion}}} to {{{newVersion}}}\" echo \"$CHANGE\" >> {{{parentDir}}}/changes/+$(echo $CHANGE | md5sum | awk '{ print $1 }').changed.md"],
     "executionMode": "update"
   }
 }
