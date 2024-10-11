@@ -67,7 +67,7 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Build towncrier
-        run: uv run towncrier build --yes --dir "${{ steps.get_module.outputs.file_name }}" --version "${{ steps.get_version.outputs.result }}"
+        run: uv run towncrier build --yes --dir "${{ steps.get_module.outputs.file_name }}/" --version "${{ steps.get_version.outputs.result }}"
 
       # - name: Fetch all branches
       #   run: |
@@ -120,8 +120,8 @@ jobs:
       # Commit the updated files
       - name: Commit changes
         run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add ${{ steps.check_config.outputs.config_files }}
-          git commit -m "Bump version in config.yaml files"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "generated"
           git push

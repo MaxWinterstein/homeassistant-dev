@@ -7,6 +7,10 @@ requires-python = "==3.11.*"
 dependencies = ["towncrier", "pre-commit"]
 
 [tool.towncrier]
+# It's important to keep these config fields empty
+# because we have more than one package/name to manage.
+package = ""
+name = ""
 directory = "changelog.d"
 filename = "CHANGELOG.md"
 start_string = "<!-- towncrier release notes start -->\n"
