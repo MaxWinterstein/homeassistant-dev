@@ -39,7 +39,7 @@
   "commitMessagePrefix": "[{{packageFileDir}}]",
   "allowedPostUpgradeCommands": [".*"],
   "postUpgradeTasks": {
-    "commands": [ "mkdir -p {{{parentDir}}}/changes/ && echo {{{depName}}} from {{{currentVersion}}} to {{{newVersion}}} >> {{{parentDir}}}/+asd.md"  ],
+    "commands": [ "CHANGE=\"{{{depName}}} from {{{currentVersion}}} to {{{newVersion}}}\" mkdir -p {{{parentDir}}}/changes/ && echo \"$CHANGE\" >> {{{parentDir}}}/$(echo $CHANGE | md5sum).md"],
     "executionMode": "update"
   }
 }

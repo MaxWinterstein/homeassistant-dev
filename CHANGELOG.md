@@ -8,6 +8,13 @@ This project uses [*towncrier*](https://towncrier.readthedocs.io/) and the chang
 
 <!-- towncrier release notes start -->
 
+## [unreleased](https://github.com/twisted/my-project/tree/unreleased) - 2024-10-11
+
+### Fixed
+
+- A fix without an issue number
+
+
 ## [1.0.0](https://github.com/twisted/my-project/tree/1.0.0) - 2024-10-11
 
 ### Fixed
