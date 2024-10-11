@@ -1,11 +1,24 @@
-name: Retry Action
+name: Run renovate
 
 on:
   issue_comment:
     types: [created]
 
 jobs:
-  retry_job:
+  run_from_schedule:
+
+    steps:
+      - &renovate_steps
+        - name: Checkout
+          uses: actions/checkout@v4.2.0
+
+        - name: Self-hosted Renovate
+          uses: renovatebot/github-action@v40.3.1
+          with:
+            token: ${{ secrets.RENOVATE_TOKEN }}
+            configurationFile: .github/renovate.json
+
+  run_from_comment:
     if: contains(github.event.comment.body, '/renovate') && github.event.comment.user.login == 'MaxWinterstein'
     runs-on: ubuntu-latest
     steps:
@@ -17,15 +30,20 @@ jobs:
             -d '{"content": "rocket"}' \
             https://api.github.com/repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions
 
-      - name: Checkout
-        uses: actions/checkout@v4.2.0
-      - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v40.3.1
-        with:
-          token: ${{ secrets.RENOVATE_TOKEN }}
-          configurationFile: .github/renovate.json
+
         env:
           RENOVATE_REPOSITORIES: "['${{ github.repository }}']"
+
+      # First add checkmark comment as this is shown immediately, delete only after reload
+      - name: Add ✅ reaction to comment
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.RENOVATE_ACTION }}" \
+            -H "Accept: application/vnd.github.squirrel-girl-preview+json" \
+            -d '{"content": "white_check_mark"}' \
+            https://api.github.com/repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions
+
+      - *renovate_steps
 
       - name: Delete the comment
         run: |
