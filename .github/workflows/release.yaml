@@ -17,17 +17,13 @@ jobs:
           # Build the new comment content
           UPDATED_COMMENT="Workflow run triggered! 🚀 [View the run here](${RUN_URL})"
 
-          # Use GitHub CLI to update the comment
-          gh api \
-            --method PATCH \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          # Use curl to update the comment
+          curl -X PATCH \
+            -H "Authorization: Bearer ${{ secrets.RENOVATE_ACTION }}" \
             -H "Accept: application/vnd.github.v3+json" \
-            /repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }} \
-            -f body="${UPDATED_COMMENT}"
-        
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+            https://api.github.com/repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }} \
+            -d "{\"body\": \"${UPDATED_COMMENT}\"}"
+              
       - name: Add 🚀 reaction to comment
         run: |
           curl -X POST \
