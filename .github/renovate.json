@@ -39,7 +39,7 @@
   "commitMessagePrefix": "[{{packageFileDir}}]",
   "allowedPostUpgradeCommands": ["^echo"],
   "postUpgradeTasks": {
-    "commands": [      "echo '{{{commitMessage}}}' >> {{{parentDir}}}/foo.md"  ],
+    "commands": [      "echo '{{{commitMessagePrefix}}} {{{commitMessageAction}}} {{{commitMessageTopic}}} {{{commitMessageExtra}}} {{{commitMessageSuffix}}}' >> {{{parentDir}}}/foo.md"  ],
     "executionMode": "update"
   }
 }
