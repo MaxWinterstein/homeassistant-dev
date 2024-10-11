@@ -119,7 +119,6 @@ jobs:
 
       # Commit the updated files
       - name: Commit changes
-        if: steps.check_config.outputs.config_files
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
