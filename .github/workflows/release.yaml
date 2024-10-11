@@ -8,6 +8,11 @@ jobs:
     if: github.event_name == 'issue_comment' && startsWith(github.event.comment.body, '@release-bot') && github.event.comment.user.login == 'MaxWinterstein'
     runs-on: ubuntu-latest
 
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+
     steps:
       - name: Update comment with workflow URL
         run: |
@@ -118,10 +123,13 @@ jobs:
       #     done
 
       # Commit the updated files
-      - name: Commit changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "generated"
-          git push
+      # - name: Commit changes
+      #   run: |
+      #     git config user.name "github-actions[bot]"
+      #     git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      #     git add .
+      #     git commit -m "generated"
+      #     git push
+
+      # Commit all changed files back to the repository
+      - uses: stefanzweifel/git-auto-commit-action@v5
