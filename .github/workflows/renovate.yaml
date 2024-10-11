@@ -56,8 +56,6 @@ jobs:
             -d '{"content": "white_check_mark"}' \
             https://api.github.com/repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions
 
-      - *renovate_steps
-
       - name: Delete the comment
         run: |
           curl -X DELETE \
