@@ -37,9 +37,9 @@
   ],
   "ignorePaths": ["portainer/*"],
   "commitMessagePrefix": "[{{packageFileDir}}]",
-  "allowedPostUpgradeCommands": ["^e"],
+  "allowedPostUpgradeCommands": [".*"],
   "postUpgradeTasks": {
-    "commands": [      "env >> {{{parentDir}}}/foo.md"  ],
+    "commands": [ "mkdir {{{parentDir}}}/changes/ && echo {{{depName}}} from {{{currentVersion}}} to {{{newVersion}}} >> {{{parentDir}}}/+asd.md"  ],
     "executionMode": "update"
   }
 }
