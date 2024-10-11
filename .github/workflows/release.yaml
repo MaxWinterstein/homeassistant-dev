@@ -16,7 +16,10 @@ jobs:
             -H "Accept: application/vnd.github.squirrel-girl-preview+json" \
             -d '{"content": "rocket"}' \
             https://api.github.com/repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions
-            
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Get module
         id: get_module
         run: |
@@ -35,10 +38,6 @@ jobs:
         uses: mikefarah/yq@v4.44.3  
         with:
           cmd: yq '.version' ${{ steps.get_module.outputs.file_name }}/config.yaml
-
-      # Checkout the repository
-      - name: Checkout code
-        uses: actions/checkout@v4
 
       - name: Install uv
         uses: astral-sh/setup-uv@v3
