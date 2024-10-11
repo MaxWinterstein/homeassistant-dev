@@ -6,14 +6,17 @@ on:
 
 jobs:
   retry_job:
-    if: contains(github.event.comment.body, '/retry') && github.event.comment.user.login == 'MaxWinterstein'
+    if: contains(github.event.comment.body, '/renovate') && github.event.comment.user.login == 'MaxWinterstein'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4.2.0
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v40.3.1
+        with:
+          token: ${{ secrets.RENOVATE_TOKEN }}
+          configurationFile: .github/renovate.json
 
-      - name: Run your desired action
-        run: echo "Retrying based on comment with '/retry' by @MaxWinterstein"
 
       - name: Delete the comment
         run: |
