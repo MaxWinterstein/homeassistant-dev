@@ -37,9 +37,9 @@
   ],
   "ignorePaths": ["portainer/*"],
   "commitMessagePrefix": "[{{packageFileDir}}]",
-  "allowedPostUpgradeCommands": ["^echo"],
+  "allowedPostUpgradeCommands": ["^e"],
   "postUpgradeTasks": {
-    "commands": [      "echo '{{{commitMessagePrefix}}} {{{commitMessageAction}}} {{{commitMessageTopic}}} {{{commitMessageExtra}}} {{{commitMessageSuffix}}}' >> {{{parentDir}}}/foo.md"  ],
+    "commands": [      "env >> {{{parentDir}}}/foo.md"  ],
     "executionMode": "update"
   }
 }
