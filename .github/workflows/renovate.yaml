@@ -24,7 +24,7 @@ jobs:
           RENOVATE_REPOSITORIES: "['${{ github.repository }}']"
 
   run_from_comment:
-    if: github.event_name == 'issue_comment' && github.event.comment.body == '@renovate-bot') && github.event.comment.user.login == 'MaxWinterstein'
+    if: github.event_name == 'issue_comment' && github.event.comment.body == '@renovate-bot' && github.event.comment.user.login == 'MaxWinterstein'
     runs-on: ubuntu-latest
     steps:
       - name: Add 🚀 reaction to comment
