@@ -21,14 +21,6 @@ jobs:
             echo "No valid command found"
             exit 1
           fi
-
-      - name: Extract version from config.yaml
-        id: get_version
-        uses: mikefarah/yq@v4.44.3  
-        run: |
-          VERSION=$(yq e '.version' config.yaml)
-          echo "Extracted version: $VERSION"
-          echo "::set-output name=version::$VERSION"
             
       - name: Extract version from config.yaml
         id: get_version
