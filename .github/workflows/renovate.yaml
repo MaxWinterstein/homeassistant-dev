@@ -24,7 +24,8 @@ jobs:
         with:
           token: ${{ secrets.RENOVATE_TOKEN }}
           configurationFile: .github/renovate.json
-
+        env:
+          RENOVATE_REPOSITORIES: "['${{ github.repository }}']"
 
       - name: Delete the comment
         run: |
