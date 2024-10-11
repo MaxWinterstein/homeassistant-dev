@@ -39,7 +39,9 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
-
+        with:
+          ref: "${{ github.event.pull_request.head.ref }}"
+          
       - name: Get module
         id: get_module
         run: |
