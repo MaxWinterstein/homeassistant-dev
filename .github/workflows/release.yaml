@@ -25,7 +25,9 @@ jobs:
             /repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }} \
             -f body="${UPDATED_COMMENT}"
         
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Add 🚀 reaction to comment
         run: |
           curl -X POST \
