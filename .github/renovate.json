@@ -39,7 +39,7 @@
   "commitMessagePrefix": "[{{packageFileDir}}]",
   "allowedPostUpgradeCommands": [".*"],
   "postUpgradeTasks": {
-    "commands": [ "mkdir {{{parentDir}}}/changes/ && echo {{{depName}}} from {{{currentVersion}}} to {{{newVersion}}} >> {{{parentDir}}}/+asd.md"  ],
+    "commands": [ "mkdir -p {{{parentDir}}}/changes/ && echo {{{depName}}} from {{{currentVersion}}} to {{{newVersion}}} >> {{{parentDir}}}/+asd.md"  ],
     "executionMode": "update"
   }
 }
