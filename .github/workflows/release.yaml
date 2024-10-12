@@ -90,6 +90,9 @@ jobs:
       - name: Build towncrier
         run: uv run towncrier build --yes --dir "${{ steps.get_module.outputs.file_name }}/" --version "${{ steps.get_version.outputs.result }}"
 
+      - name: Move file
+        run: mv CHANGELOG.md "${{ steps.get_module.outputs.file_name }}/"
+
       # - name: Fetch all branches
       #   run: |
       #     git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
