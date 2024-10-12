@@ -56,7 +56,7 @@ jobs:
         # Checking out the appropriate branch based on the event type
       - name: Determine checkout branch
         run: |
-          echo "${{ toJson(github.event) }}"
+          echo "${{ toJson(github) }}"
           if [[ "${{ github.event.issue.pull_request.refs }}" == "foo" ]]; then
             echo "Triggered by a pull request, checking out PR branch."
             git checkout ${{ github.event.pull_request.head.ref }}
