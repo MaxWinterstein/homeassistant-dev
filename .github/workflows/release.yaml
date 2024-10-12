@@ -37,11 +37,34 @@ jobs:
             -d '{"content": "rocket"}' \
             https://api.github.com/repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions
 
+      - name: Get module
+        id: get_module
+        run: |
+          comment_body="${{ github.event.comment.body }}"
+          if [[ "$comment_body" =~ @release-bot[[:space:]]([a-zA-Z0-9_-]+) ]]; then
+            FILE_NAME="${BASH_REMATCH[1]}"
+            echo "File name to create: $FILE_NAME"
+            echo "::set-output name=file_name::$FILE_NAME"
+          else
+            echo "No valid command found"
+            exit 1
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: "${{ github.event.pull_request.head.ref }}"
-          
+
+        # Checking out the appropriate branch based on the event type
+      - name: Determine checkout branch
+        run: |
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "Triggered by a pull request, checking out PR branch."
+            git checkout ${{ github.event.pull_request.head.ref }}
+          else
+            echo "Not triggered by a pull request, checking out master and creating release branch."
+            git checkout master
+            git checkout -b ${{ steps.get_module.outputs.file_name }}
+          fi
+
       - name: Get module
         id: get_module
         run: |
