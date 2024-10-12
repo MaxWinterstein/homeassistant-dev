@@ -53,18 +53,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-        # Checking out the appropriate branch based on the event type
-      - name: Determine checkout branch
+      - name: Get the pull request details
+        id: pr-details
         run: |
-          echo "${{ toJson(github) }}"
-          if [[ "${{ github.event.issue.pull_request.refs }}" == "foo" ]]; then
-            echo "Triggered by a pull request, checking out PR branch."
-            git checkout ${{ github.event.pull_request.head.ref }}
-          else
-            echo "Not triggered by a pull request, checking out master and creating release branch."
-            git checkout master
-            git checkout -b ${{ steps.get_module.outputs.file_name }}
-          fi
+          PR_NUMBER=${{ github.event.issue.number }}
+          # Fetch PR details using GitHub API
+          PR_DATA=$(gh pr view $PR_NUMBER --json headRefName --jq '.headRefName')
+          echo "Branch name: $PR_DATA"
+          echo "::set-output name=branch_name::$PR_DATA"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout the pull request branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.pr-details.outputs.branch_name }}
             
       - name: Extract version from config.yaml
         id: get_version
