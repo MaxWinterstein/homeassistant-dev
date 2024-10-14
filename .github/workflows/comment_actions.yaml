@@ -163,7 +163,7 @@ jobs:
         run: |
            mv "${{ steps.get_addon.outputs.addon }}/CHANGELOG.md" CHANGELOG.md 
            uv run towncrier build --yes --dir "${{ steps.get_addon.outputs.addon }}/" --version "${{ steps.increment_version.outputs.new_version }}" --config pyproject.toml
-           mv CHANGELOG.md "${{ steps.get_addon.outputs.addon }}/CHANGELOG.md" 
+           # mv CHANGELOG.md "${{ steps.get_addon.outputs.addon }}/CHANGELOG.md" 
 
       - name: Push changes
         if: startsWith(github.event.comment.body, '/release')
