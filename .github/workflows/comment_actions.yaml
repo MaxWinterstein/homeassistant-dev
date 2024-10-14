@@ -1,4 +1,4 @@
-name: "Custom / actions"
+name: "Custom / Actions"
 
 on:
   issue_comment:
@@ -26,8 +26,7 @@ jobs:
           RUN_URL="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
           # Build the new comment content
-          UPDATED_COMMENT="${{ github.event.comment.body }}  
-          [Workflow run triggered! 🚀](${RUN_URL})"
+          UPDATED_COMMENT="[Workflow run triggered! 🚀](${RUN_URL})"
 
           # Use curl to update the comment
           curl -X PATCH \
