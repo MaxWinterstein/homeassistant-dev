@@ -67,7 +67,7 @@ jobs:
         id: get_module
         run: |
           comment_body="${{ github.event.comment.body }}"
-          if [[ "$comment_body" =~ @release-bot[[:space:]]([a-zA-Z0-9_-]+) ]]; then
+          if [[ "$comment_body" =~ /release[[:space:]]([a-zA-Z0-9_-]+) ]]; then
             ADDON="${BASH_REMATCH[1]}"
             echo "Mentioned Addon: $ADDON"
             echo "::set-output name=addon::$ADDON"
