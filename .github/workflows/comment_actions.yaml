@@ -5,10 +5,10 @@ on:
     types: [created]
 jobs:
   bump-version:
-    if: github.event_name == 'issue_comment' && ( 
-          startsWith(github.event.comment.body, '/release')
-          || startsWith(github.event.comment.body, '/renovate'
-        ) && 
+    if: github.event_name == 'issue_comment' && ( \
+          startsWith(github.event.comment.body, '/release') \
+          || startsWith(github.event.comment.body, '/renovate' \
+        ) && \
         github.event.comment.user.login == 'MaxWinterstein'
     runs-on: ubuntu-latest
 
