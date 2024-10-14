@@ -118,11 +118,10 @@ jobs:
 
       - name: Build towncrier
         if: startsWith(github.event.comment.body, '/release')
-        run: mv CHANGELOG.md "${{ steps.get_addon.outputs.addon }}/"uv run towncrier build --yes --dir "${{ steps.get_addon.outputs.addon }}/" --version "${{ steps.get_version.outputs.result }}"
-
-      - name: Move file
-        if: startsWith(github.event.comment.body, '/release')
-        run: mv CHANGELOG.md "${{ steps.get_addon.outputs.addon }}/"
+        run: |
+           mv "${{ steps.get_addon.outputs.addon }}/CHANGELOG.md" CHANGELOG.md 
+           uv run towncrier build --yes --dir "${{ steps.get_addon.outputs.addon }}/" --version "${{ steps.get_version.outputs.result }}"
+           mv CHANGELOG.md "${{ steps.get_addon.outputs.addon }}/CHANGELOG.md" 
 
       - name: Push changes
         if: startsWith(github.event.comment.body, '/release')
