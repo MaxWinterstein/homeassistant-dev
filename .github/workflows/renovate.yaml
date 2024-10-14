@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  run_from_schedule:
+  run renovate:
     if: github.event_name == 'schedule' || github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
@@ -25,42 +25,3 @@ jobs:
           configurationFile: .github/renovate.json
         env:
           RENOVATE_REPOSITORIES: "['${{ github.repository }}']"
-
-  run_from_comment:
-    if: github.event_name == 'issue_comment' && startsWith(github.event.comment.body, '@renovate-bot') && github.event.comment.user.login == 'MaxWinterstein'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Add 🚀 reaction to comment
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.RENOVATE_ACTION }}" \
-            -H "Accept: application/vnd.github.squirrel-girl-preview+json" \
-            -d '{"content": "rocket"}' \
-            https://api.github.com/repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions
-
-      - name: Checkout
-        uses: actions/checkout@v4.2.0
-
-      - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v40.3.1
-        with:
-          token: ${{ secrets.RENOVATE_TOKEN }}
-          configurationFile: .github/renovate.json
-        env:
-          RENOVATE_REPOSITORIES: "['${{ github.repository }}']"
-
-      # First add checkmark comment as this is shown immediately, delete only after reload
-      - name: Add +1 reaction to comment
-        run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.RENOVATE_ACTION }}" \
-            -H "Accept: application/vnd.github.squirrel-girl-preview+json" \
-            -d '{"content": "+1"}' \
-            https://api.github.com/repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions
-
-      - name: Delete the comment
-        run: |
-          curl -X DELETE \
-          -H "Authorization: token ${{ secrets.RENOVATE_ACTION }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}
