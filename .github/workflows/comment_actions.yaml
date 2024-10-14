@@ -4,7 +4,7 @@ on:
   issue_comment:
     types: [created]
 jobs:
-  bump-version:
+  custom_actions:
     if: github.event_name == 'issue_comment' && 
         (startsWith(github.event.comment.body, '/release') || 
          startsWith(github.event.comment.body, '/renovate')) && 
