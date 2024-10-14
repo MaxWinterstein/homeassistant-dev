@@ -62,9 +62,9 @@ jobs:
 
       ## Version bump
 
-      - name: Get module
+      - name: Get mentioned Addon
         if: startsWith(github.event.comment.body, '/release')
-        id: get_module
+        id: get_addon
         run: |
           comment_body="${{ github.event.comment.body }}"
           if [[ "$comment_body" =~ /release[[:space:]]([a-zA-Z0-9_-]+) ]]; then
@@ -99,7 +99,7 @@ jobs:
         id: get_version
         uses: mikefarah/yq@v4.44.3  
         with:
-          cmd: yq '.version' ${{ steps.get_module.outputs.file_name }}/config.yaml
+          cmd: yq '.version' ${{ steps.get_addon.outputs.addon }}/config.yaml
 
       - name: Install uv
         if: startsWith(github.event.comment.body, '/release')
@@ -118,11 +118,11 @@ jobs:
 
       - name: Build towncrier
         if: startsWith(github.event.comment.body, '/release')
-        run: mv CHANGELOG.md "${{ steps.get_module.outputs.file_name }}/"uv run towncrier build --yes --dir "${{ steps.get_module.outputs.file_name }}/" --version "${{ steps.get_version.outputs.result }}"
+        run: mv CHANGELOG.md "${{ steps.get_addon.outputs.addon }}/"uv run towncrier build --yes --dir "${{ steps.get_addon.outputs.addon }}/" --version "${{ steps.get_version.outputs.result }}"
 
       - name: Move file
         if: startsWith(github.event.comment.body, '/release')
-        run: mv CHANGELOG.md "${{ steps.get_module.outputs.file_name }}/"
+        run: mv CHANGELOG.md "${{ steps.get_addon.outputs.addon }}/"
 
       - name: Push changes
         if: startsWith(github.event.comment.body, '/release')
