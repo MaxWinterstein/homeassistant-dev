@@ -106,7 +106,7 @@ jobs:
         id: increment_version
         run: |
           # Read current version and split it into major, minor, patch, and optionally build components
-          IFS='.' read -r MAJOR MINOR PATCH BUILD <<< "${{ env.result }}"
+          IFS='.' read -r MAJOR MINOR PATCH BUILD <<< "${{ steps.get_version.outputs.result }}"
           
           # Increment the MINOR version
           MINOR=$((MINOR + 1))
