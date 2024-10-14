@@ -62,31 +62,42 @@ jobs:
 
       ## Version bump
 
+      - name: Get the pull request details - if there is one
+        if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/release')
+        id: pr-details
+        run: |
+          PR_NUMBER=${{ github.event.issue.number }}
+          # Fetch PR details using GitHub API
+          PR_DATA=$(gh pr view $PR_NUMBER --json headRefName,title --jq '{branchName: .headRefName, title: .title}')
+          BRANCH_NAME=$(echo $PR_DATA | jq -r .branchName)
+          TITLE=$(echo $PR_DATA | jq -r .title)
+          echo "Branch name: $BRANCH_NAME"
+          echo "Title: $TITLE"
+          echo "::set-output name=branch_name::$BRANCH_NAME"
+          echo "::set-output name=title::$TITLE"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Get mentioned Addon
         if: startsWith(github.event.comment.body, '/release')
         id: get_addon
         run: |
           comment_body="${{ github.event.comment.body }}"
-          if [[ "$comment_body" =~ /release[[:space:]]([a-zA-Z0-9_-]+) ]]; then
+          PR_TITLE="${{ steps.pr-details.outputs.title }}"
+          ADDON=''
+
+          # Check if the PR title has an add-on mentioned
+          if [[ "$PR_TITLE" =~ \[([a-zA-Z0-9_-]+)\] ]]; then
             ADDON="${BASH_REMATCH[1]}"
-            echo "Mentioned Addon: $ADDON"
-            echo "::set-output name=addon::$ADDON"
+            echo "Mentioned Addon from PR Title: $ADDON"
+          elif [[ "$comment_body" =~ /release[[:space:]]([a-zA-Z0-9_-]+) ]]; then
+            ADDON="${BASH_REMATCH[1]}"
+            echo "Mentioned Addon from Comment Body: $ADDON"
           else
-            echo "No valid command found"
+            echo "No valid add-on found"
             exit 1
           fi
 
-      - name: Get the pull request details
-        if: startsWith(github.event.comment.body, '/release')
-        id: pr-details
-        run: |
-          PR_NUMBER=${{ github.event.issue.number }}
-          # Fetch PR details using GitHub API
-          PR_DATA=$(gh pr view $PR_NUMBER --json headRefName --jq '.headRefName')
-          echo "Branch name: $PR_DATA"
-          echo "::set-output name=branch_name::$PR_DATA"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Checkout the pull request branch
         if: startsWith(github.event.comment.body, '/release')
