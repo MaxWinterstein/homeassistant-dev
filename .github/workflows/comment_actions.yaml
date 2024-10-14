@@ -97,6 +97,7 @@ jobs:
             echo "No valid add-on found"
             exit 1
           fi
+          echo "::set-output name=addon::$ADDON"
 
 
       - name: Checkout the pull request branch
