@@ -5,7 +5,7 @@ name: Check PR Build
 on:
   pull_request:
     branches:
-      - mainx
+      - main
 
 jobs:
   check-addon-changes:
