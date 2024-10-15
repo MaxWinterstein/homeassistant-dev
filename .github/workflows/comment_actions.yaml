@@ -52,7 +52,7 @@ jobs:
         if: startsWith(github.event.comment.body, '/renovate')
         uses: renovatebot/github-action@v40.3.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RENOVATE_TOKEN }}
           configurationFile: .github/renovate.json5
         env:
           RENOVATE_REPOSITORIES: "['${{ github.repository }}']"
