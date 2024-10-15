@@ -1,3 +1,8 @@
+## [1.3.0](https://github.com/twisted/my-project/tree/1.3.0) - 2024-10-15
+
+No significant changes.
+
+
 ## [1.2.0](https://github.com/twisted/my-project/tree/1.2.0) - 2024-10-15
 
 ### Changed
