@@ -1,3 +1,10 @@
+## [1.1.0](https://github.com/twisted/my-project/tree/1.1.0) - 2024-10-15
+
+### Changed
+
+- Update ghcr.io/hassio-addons/base from 13.0.0 to 13.2.2
+
+
 # Changelog
 
 ## [1.0.3] - 2024-01-01
