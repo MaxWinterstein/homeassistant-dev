@@ -52,7 +52,7 @@ jobs:
         if: startsWith(github.event.comment.body, '/renovate')
         uses: renovatebot/github-action@v40.3.1
         with:
-          token: ${{ secrets.RENOVATE_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           configurationFile: .github/renovate.json5
         env:
           RENOVATE_REPOSITORIES: "['${{ github.repository }}']"
@@ -122,7 +122,7 @@ jobs:
           
           # Increment the MINOR version
           MINOR=$((MINOR + 1))
-          BUILD=0  # Reset build number when MINOR is incremented
+          # BUILD=0  # Reset build number when MINOR is incremented
           PATCH=0  # Reset patch number when MINOR is incremented
 
           # Construct the new version
@@ -130,7 +130,7 @@ jobs:
           
           # Append build if it exists
           if [[ -n $BUILD ]]; then
-              NEW_VERSION="$NEW_VERSION.$BUILD"
+              NEW_VERSION="$NEW_VERSION.0"
           fi
           
           # Print the updated version for logging purposes
