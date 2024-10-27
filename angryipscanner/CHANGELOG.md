@@ -1,3 +1,10 @@
+## [1.2.0] - 2024-10-27
+
+### Changed
+
+- Update angryip/ipscan from 3.8.2 to 3.9.1
+
+
 # Changelog
 
 ## 1.1.3 // 07.12.2022
